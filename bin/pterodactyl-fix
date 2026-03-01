@@ -1,0 +1,15 @@
+#!/bin/bash
+source /usr/local/bin/pt-lib
+check_sudo
+
+echo -e "${GREEN}=== Pterodactyl 権限修復ツール ===${NC}"
+echo -e "${BLUE}全 2 工程を開始します...${NC}\n"
+
+show_progress 1 2 "所有者を www-data に統一中..."
+chown -R www-data:www-data /var/www/pterodactyl/*
+
+show_progress 2 2 "ディレクトリ/ファイル権限を最適化中..."
+find /var/www/pterodactyl -type d -exec chmod 755 {} \;
+find /var/www/pterodactyl -type f -exec chmod 644 {} \;
+
+echo -e "\n\n${GREEN}✔ [完了] 権限の整合性がとれました。${NC}"
