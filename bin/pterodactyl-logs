@@ -1,0 +1,18 @@
+#!/bin/bash
+source /usr/local/bin/pt-lib
+
+echo -e "${GREEN}=== Pterodactyl ログ監視モード ===${NC}"
+echo -e "${BLUE}準備を開始します...${NC}\n"
+
+show_progress 1 1 "最新のログファイルを探しています..."
+LOG_PATH="/var/www/pterodactyl/storage/logs/laravel-$(date +%Y-%m-%d).log"
+sleep 1
+
+if [ ! -f "$LOG_PATH" ]; then
+    echo -e "\n${RED}エラー: 本日のログが見つかりません。${NC}"
+    exit 1
+fi
+
+echo -e "\n${BLUE}監視を開始します (終了するには Ctrl+C)${NC}"
+echo "------------------------------------------"
+tail -f "$LOG_PATH"
