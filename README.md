@@ -9,6 +9,7 @@ Ubuntu環境におけるPterodactyl Panelの運用を効率化するためのシ
 | pterodactyl-restore | 3 | バックアップから復元し、権限修復とキャッシュクリアを実行 |
 | pterodactyl-fix | 2 | 所有権（www-data）とファイル/ディレクトリ権限の修復 |
 | pterodactyl-logs | 1 | 本日のLaravelログをリアルタイム監視（tail -f） |
+
 🚀 インストール方法
 1. リポジトリのクローン
 ターミナルを開き、リポジトリをローカルにダウンロードします。
