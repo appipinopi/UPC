@@ -1,0 +1,19 @@
+#!/bin/bash
+# Pterodactylツール共通ライブラリ
+
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+show_progress() {
+    local current=$1
+    local total=$2
+    local percent=$((current * 100 / total))
+    local bar_size=$((percent / 5))
+    local bar=$(printf "%${bar_size}s" | tr ' ' '#')
+    local space=$(printf "%$((20 - bar_size))s")
+    
+    printf "\r${BLUE}[${bar}${space}] ${percent}%% - ${YELLOW}%s${NC}" "$3"
+}
