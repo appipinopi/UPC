@@ -1,0 +1,15 @@
+#!/bin/bash
+source /usr/local/bin/pt-lib
+check_sudo
+
+echo -e "${GREEN}=== Pterodactyl バックアップ作成 ===${NC}"
+echo -e "${BLUE}全 2 工程を開始します...${NC}\n"
+
+show_progress 1 2 "旧バックアップを破棄中..."
+rm -rf /var/www/pterodactyl_backup
+mkdir -p /var/www/pterodactyl_backup
+
+show_progress 2 2 "現行ファイルをコピー中..."
+cp -a /var/www/pterodactyl/. /var/www/pterodactyl_backup/
+
+echo -e "\n\n${GREEN}✔ [完了] バックアップが正常に作成されました。${NC}"
