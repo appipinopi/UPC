@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# カラー変数の定義（見た目を華やかに）
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# 進捗表示用の関数
+show_progress() {
+    local current=$1
+    local total=$2
+    local percent=$((current * 100 / total))
+    local bar_size=$((percent / 5))
+    local bar=$(printf "%${bar_size}s" | tr ' ' '#')
+    local space=$(printf "%$((20 - bar_size))s")
+    
+    printf "\r${BLUE}[${bar}${space}] ${percent}%% - ${YELLOW}%s${NC}" "$3"
+}
+
+echo -e "${GREEN}==========================================${NC}"
+echo -e "${GREEN}   Pterodactyl 復元システムを起動します   ${NC}"
+echo -e "${GREEN}==========================================${NC}"
+
+# ステップ1
+show_progress 25 100 "既存ファイルを削除中..."
+sudo rm -rf /var/www/pterodactyl/*
+sleep 1 # 視認用
+
+# ステップ2
+show_progress 50 100 "バックアップから復元中..."
+sudo cp -a /var/www/pterodactyl_backup/. /var/www/pterodactyl/
+sleep 1
+
+# ステップ3
+show_progress 75 100 "所有権を修復中..."
+sudo chown -R www-data:www-data /var/www/pterodactyl/*
+sleep 1
+
+# ステップ4
+show_progress 95 100 "キャッシュをクリア中..."
+cd /var/www/pterodactyl || exit
+sudo php artisan view:clear > /dev/null 2>&1
+sudo php artisan config:clear > /dev/null 2>&1
+sudo php artisan cache:clear > /dev/null 2>&1
+
+# 完了
+show_progress 100 100 "すべての工程が完了！"
+echo -e "\n\n${GREEN}✔ 復元が正常に完了しました。パネルを確認してください。${NC}"
